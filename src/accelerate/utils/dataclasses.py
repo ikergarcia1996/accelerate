@@ -1257,7 +1257,7 @@ class MegatronLMPlugin:
             self.megatron_lm_default_args["decoder_seq_length"] = self.decoder_seq_length
         else:
             raise ValueError(
-                "🤗 Accelerate Megatron-LM integration supports only BERT, GPT and T5 model. "
+                "🤗 Accelerate Megatron-LM integration supports only BERT, GPT2, LLaMA and T5 models. "
                 "Please check the model you are using is one of those."
             )
 
