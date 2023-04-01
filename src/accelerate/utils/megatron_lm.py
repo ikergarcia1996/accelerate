@@ -136,13 +136,6 @@ def prepare_model(accelerator):
             model_type = ModelType.encoder_and_decoder
             if args.pipeline_model_parallel_split_rank is None and args.pipeline_model_parallel_size > 1:
                 args.pipeline_model_parallel_split_rank = args.pipeline_model_parallel_size // 2
-        elif args.model_type_name == "llama":
-            model_type = ModelType.encoder_and_decoder
-        else:
-            raise ValueError(
-                "🤗 Accelerate Megatron-LM integration supports only BERT, GPT2, LLaMA and T5 models. "
-                "Please check the model you are using is one of those."
-            )
         model = get_model(model_provider_func, model_type)
     return model
 

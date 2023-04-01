@@ -1214,7 +1214,7 @@ class MegatronLMPlugin:
             self.megatron_lm_default_args["return_logits"] = self.return_logits
             self.megatron_lm_default_args["tokenizer_type"] = "GPT2BPETokenizer"
         elif "llama" in model.config.model_type.lower():
-            model_type_name = "llama"
+            model_type_name = "gpt"
             num_layers = model.config.num_hidden_layers
             hidden_size = model.config.hidden_size
             num_attention_heads = model.config.num_attention_heads
