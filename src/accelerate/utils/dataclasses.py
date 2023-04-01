@@ -1213,6 +1213,27 @@ class MegatronLMPlugin:
             self.megatron_lm_default_args["seq_length"] = self.seq_length
             self.megatron_lm_default_args["return_logits"] = self.return_logits
             self.megatron_lm_default_args["tokenizer_type"] = "GPT2BPETokenizer"
+        elif "llama" in model.config.model_type.lower():
+            model_type_name = "llama"
+            num_layers = model.config.num_hidden_layers
+            hidden_size = model.config.hidden_size
+            num_attention_heads = model.config.num_attention_heads
+            max_position_embeddings = 1000000000000000019884624838656  # From LlamaTokenizer config
+            orig_vocab_size = model.config.vocab_size
+            pretraining_flag = True
+            if self.seq_length is not None:
+                if self.decoder_seq_length is not None:
+                    warnings.warn("Both `seq_length` and `decoder_seq_length` are set. Using `decoder_seq_length`.")
+                self.seq_length = self.decoder_seq_length
+            elif self.decoder_seq_length is not None:
+                self.seq_length = self.decoder_seq_length
+            elif batch_data is not None:
+                self.seq_length = batch_data["input_ids"].shape[1]
+            else:
+                self.seq_length = max_position_embeddings
+            self.megatron_lm_default_args["seq_length"] = self.seq_length
+            self.megatron_lm_default_args["return_logits"] = self.return_logits
+            self.megatron_lm_default_args["tokenizer_type"] = "LlamaTokenizer"
         elif "t5" in model.config.model_type.lower():
             model_type_name = "t5"
             num_layers = model.config.num_layers
